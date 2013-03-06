@@ -1,5 +1,7 @@
 # ProfileTracker
 
+[![Build Status](https://travis-ci.org/gabynaiman/profile_tracker.png?branch=master)](https://travis-ci.org/gabynaiman/profile_tracker)
+
 Easy way to profile ruby objects
 
 ## Installation
