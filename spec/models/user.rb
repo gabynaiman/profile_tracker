@@ -4,7 +4,7 @@ class User
   attr_reader :last_name
 
   def self.john_doe
-    self.new 'John', 'Doe'
+    with_name 'John', 'Doe'
   end
 
   def full_name
@@ -21,5 +21,10 @@ class User
   def concatenate
     "#{first_name} #{last_name}"
   end
+
+  def self.with_name(first_name, last_name)
+    new first_name, last_name
+  end
+
 
 end
