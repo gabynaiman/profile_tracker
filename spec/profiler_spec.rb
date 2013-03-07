@@ -12,9 +12,9 @@ describe 'Profiler' do
     end
 
     it 'Model methods' do
-      User.methods(false).should eq [:john_doe]
-      User.instance_methods(false).should eq [:first_name, :last_name, :full_name]
-      User.private_instance_methods(false).should eq [:initialize, :concatenate]
+      User.methods(false).should include :john_doe
+      User.instance_methods(false).should include *[:first_name, :last_name, :full_name]
+      User.private_instance_methods(false).should include *[:initialize, :concatenate]
     end
 
   end
@@ -41,16 +41,11 @@ describe 'Profiler' do
     it 'Model methods' do
       ProfileTracker::Profiler.new { watch User }
 
-      User.methods(false).should eq [:john_doe]
-      User.instance_methods(false).should eq [:first_name, :last_name, :full_name]
+      User.methods(false).should include :john_doe
+      User.instance_methods(false).should include *[:first_name, :last_name, :full_name]
 
-      User.methods(false).map { |m| "#{m}_without_profiler".to_sym }.each do |method|
-        User.private_methods(false).should include method
-      end
-
-      User.instance_methods(false).map { |m| "#{m}_without_profiler".to_sym }.each do |method|
-        User.private_instance_methods(false).should include method
-      end
+      User.private_methods(false).should include *User.methods(false).map { |m| "#{m}_without_profiler".to_sym }
+      User.private_instance_methods(false).should include *User.instance_methods(false).map { |m| "#{m}_without_profiler".to_sym }
     end
 
     it 'Model explicit methods' do
@@ -60,7 +55,6 @@ describe 'Profiler' do
   end
 
   context 'Tracking' do
-
 
 
   end
