@@ -7,6 +7,7 @@ module ProfileTracker
                                           fields: [:klass, :method, :scope, :elapsed_time_to_ms, :timestamp, :args],
                                           headers: {klass: 'Class', elapsed_time_to_ms: 'Time (ms)'},
                                           header_filter: :capitalize,
+                                          resize: false,
                                           unicode: true
                                       }
     end
@@ -17,6 +18,7 @@ module ProfileTracker
                                           fields: [:klass, :method, :scope, :elapsed_time_to_ms, :calls, :average_to_ms, :max_to_ms, :min_to_ms],
                                           headers: {klass: 'Class', elapsed_time_to_ms: 'Time (ms)', average_to_ms: 'Average (ms)', max_to_ms: 'Max (ms)', min_to_ms: 'Min (ms)'},
                                           header_filter: :capitalize,
+                                          resize: false,
                                           unicode: true
                                       }
     end
