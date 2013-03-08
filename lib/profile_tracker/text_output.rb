@@ -22,7 +22,17 @@ module ProfileTracker
     end
 
     def self.tree
+      Hirb::Helpers::Tree.render tree_nodes(Profiler.instance.root_traces), type: :directory
+    end
 
+    private
+
+    def self.tree_nodes(traces, level=0)
+      traces.inject([]) do |list, t|
+        list << {value: "#{t.klass}.#{t.method} (#{t.scope})".ljust(80-level*4) + "#{t.elapsed_time_to_ms}ms", level: level}
+        list += tree_nodes(t.traces, level + 1) unless t.traces.empty?
+        list
+      end
     end
 
   end
