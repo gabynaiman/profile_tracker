@@ -31,21 +31,14 @@ module ProfileTracker
       summary = traces.inject({}) do |hash, trace|
         key = "#{trace.klass}|#{trace.method}|#{trace.scope}"
         if hash.has_key? key
-          hash[key][:elapsed_time] += trace.elapsed_time
-          hash[key][:calls] += 1
+          hash[key].add_call trace.elapsed_time
         else
-          hash[key] = {
-              klass: trace.klass,
-              method: trace.method,
-              scope: trace.scope,
-              elapsed_time: trace.elapsed_time,
-              calls: 1
-          }
+          hash[key] = TraceSummary.build(trace)
         end
         hash
       end
 
-      summary.values.sort_by { |t| -t[:elapsed_time] }
+      summary.values.sort_by { |t| -t.elapsed_time }
     end
 
   end

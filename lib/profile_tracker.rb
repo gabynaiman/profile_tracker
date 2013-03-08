@@ -1,9 +1,11 @@
 require 'singleton'
+require 'set'
 require 'hirb'
 
 require 'profile_tracker/version'
 require 'profile_tracker/watcher'
 require 'profile_tracker/trace'
+require 'profile_tracker/trace_summary'
 require 'profile_tracker/profiler'
 require 'profile_tracker/text_output'
 

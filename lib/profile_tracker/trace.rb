@@ -48,7 +48,7 @@ module ProfileTracker
         exception = ex
       end
 
-      @elapsed_time = ((Time.now.to_f - start) * 1000.0).round(3)
+      @elapsed_time = Time.now.to_f - start
 
       @@stack.pop
 
