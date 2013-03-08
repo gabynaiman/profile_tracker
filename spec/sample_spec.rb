@@ -9,7 +9,7 @@ describe 'Sample' do
     user = User.john_doe
     user.full_name
 
-    puts ProfileTracker::TextOutput.plain
+    puts ProfileTracker::TextOutput.summary
   end
 
   it 'test module' do
@@ -18,7 +18,7 @@ describe 'Sample' do
 
     Helper.module_method
 
-    puts ProfileTracker::TextOutput.plain
+    puts ProfileTracker::TextOutput.traces
 
   end
 

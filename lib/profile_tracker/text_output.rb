@@ -1,24 +1,28 @@
 module ProfileTracker
   class TextOutput
 
-    def self.plain
-      report = TextReport.new
+    def self.traces
+      Hirb::Helpers::AutoTable.render Profiler.instance.traces,
+                                      {
+                                          fields: [:klass, :method, :scope, :elapsed_time, :timestamp, :args],
+                                          headers: {klass: 'Class', elapsed_time: 'Time (ms)'},
+                                          header_filter: :capitalize,
+                                          unicode: true
+                                      }
+    end
 
-      report.table do |t|
-        t.column 'Class', 20
-        t.column 'Method', 30
-        t.column 'Type', 10
-        t.column 'Time (ms)', 10
+    def self.summary
+      Hirb::Helpers::AutoTable.render Profiler.instance.summary,
+                                      {
+                                          fields: [:klass, :method, :scope, :elapsed_time, :calls],
+                                          headers: {klass: 'Class', elapsed_time: 'Time (ms)'},
+                                          header_filter: :capitalize,
+                                          unicode: true
+                                      }
+    end
 
-        Profiler.instance.traces.each do |trace|
-          t.row trace.object.is_a?(Class) ? trace.object.to_s : trace.object.class.to_s,
-                trace.method,
-                trace.object.is_a?(Class) ? 'class' : 'instance',
-                (trace.elapsed_time * 1000.0).round(3).to_s
-        end
-      end
+    def self.tree
 
-      report.to_s
     end
 
   end
