@@ -7,6 +7,7 @@ module ProfileTracker
 
     def watch_instance_method(method)
       return if watched_instance_methods.include? method
+      watched_instance_methods << method
 
       module_eval do
         visibility =
@@ -37,7 +38,9 @@ module ProfileTracker
     end
 
     def watch_all_instance_methods
-      watch_instance_methods *(public_instance_methods(false) + private_instance_methods(false) + protected_instance_methods(false) - Watcher.instance_methods(false))
+      methods = public_instance_methods(false) + private_instance_methods(false) + protected_instance_methods(false)
+      methods.reject! { |m| m.to_s.match /__.+_watched__/ }
+      watch_instance_methods *methods
     end
 
     def watched_class_methods
@@ -46,6 +49,7 @@ module ProfileTracker
 
     def watch_class_method(method)
       return if watched_class_methods.include? method
+      watched_class_methods << method
 
       singleton_class.module_eval do
         visibility =
@@ -76,7 +80,10 @@ module ProfileTracker
     end
 
     def watch_all_class_methods
-      watch_class_methods *(public_methods(false) + private_methods(false) + protected_methods(false) - Watcher.instance_methods(false))
+      methods = public_methods(false) + private_methods(false) + protected_methods(false)
+      methods = methods - Watcher.instance_methods(false)
+      methods.reject! { |m| m.to_s.match /__.+_watched__/ }
+      watch_class_methods *methods
     end
 
     def watch_all_methods

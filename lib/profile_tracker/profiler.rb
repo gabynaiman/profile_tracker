@@ -4,10 +4,7 @@ module ProfileTracker
     include Singleton
 
     def watch(klass, method_selector, *methods)
-      klass.send :extend, ProfileTracker::Watcher unless (
-      class << klass;
-        self
-      end).included_modules.include? ProfileTracker::Watcher
+      klass.send :extend, ProfileTracker::Watcher unless watched? klass
       klass.send "watch_#{method_selector}", *methods
     end
 
@@ -46,6 +43,12 @@ module ProfileTracker
       end
 
       summary.values.sort_by { |t| -t[:elapsed_time] }
+    end
+
+    private
+
+    def watched?(klass)
+      (class << klass; self end).included_modules.include? ProfileTracker::Watcher
     end
 
   end
